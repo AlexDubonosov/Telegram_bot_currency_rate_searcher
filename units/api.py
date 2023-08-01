@@ -43,8 +43,8 @@ def post_request(url, params):
 
 
 # Поиск стоимости выбранной валюты
-def chosen_currency_price(key):
-    user_data_from_db = read_db()
+def chosen_currency_price(key, chat_id):
+    user_data_from_db = read_db(chat_id)
     user_currency = find_keys_in_json(user_data_from_db, 'currency')
     data = api_request(method_endswith='market/v2/get-quotes',
                        params={"region": "US", "symbols": user_currency},

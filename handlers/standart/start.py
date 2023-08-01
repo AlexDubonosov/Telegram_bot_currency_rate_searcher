@@ -17,7 +17,7 @@ def bot_start(message: Message):
 
 @bot.message_handler(state=MyStates.name)
 def name_write(message: Message):
-    user['name'] = message.from_user.id
+    user['name'] = message.from_user.first_name
     user['chat_id'] = message.chat.id
     bot.send_message(message.chat.id, f'Привет, {message.text}!\n'
                                       f'Чтобы начать выберите валюту: /currency\n'

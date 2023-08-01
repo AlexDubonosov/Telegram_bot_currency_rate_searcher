@@ -24,15 +24,15 @@ def callback_currency_choice(call):
 
     if call.data == 'usd_button':
         bot.send_message(call.message.chat.id, 'Выбрана валюта: USD')
-        write_read_db.write_db('RUB=X')
+        write_read_db.write_db('RUB=X', call.message.chat.id)
 
     elif call.data == 'eur_button':
         bot.send_message(call.message.chat.id, 'Выбрана валюта: EUR')
-        write_read_db.write_db('EURRUB=X')
+        write_read_db.write_db('EURRUB=X', call.message.chat.id)
 
     elif call.data == 'btc_usd_button':
         bot.send_message(call.message.chat.id, 'Выбрана валюта: BTC/USD')
-        write_read_db.write_db('BTC-USD')
+        write_read_db.write_db('BTC-USD',call.message.chat.id)
 
     elif call.data == 'other_button':
         bot.send_message(call.message.chat.id, 'Введите символьный код необходимой валюты,\n'

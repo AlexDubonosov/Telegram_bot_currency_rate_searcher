@@ -21,15 +21,15 @@ def action_choice_keyboard():
                             call.data == 'custom_button')
 def callback_action_choice(call):
     if call.data == 'current_button':
-        result = api.chosen_currency_price('regularMarketPrice')
+        result = api.chosen_currency_price('regularMarketPrice', call.message.chat.id)
         bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result}')
 
     elif call.data == 'low_button':
-        result = api.chosen_currency_price('regularMarketDayLow')
+        result = api.chosen_currency_price('regularMarketDayLow', call.message.chat.id)
         bot.send_message(call.message.chat.id, f'Минимальная цена за день:  {result}')
 
     elif call.data == 'high_button':
-        result = api.chosen_currency_price('regularMarketDayHigh')
+        result = api.chosen_currency_price('regularMarketDayHigh', call.message.chat.id)
         bot.send_message(call.message.chat.id, f'Максимальная цена за день:  {result}')
 
     elif call.data == 'custom_button':
