@@ -11,3 +11,10 @@ else:
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 API_KEY = os.getenv('API_KEY')
 
+
+MENU_COMMANDS = (
+    ("/start", "Запустить бота"),
+    ('/currency', 'Выбрать валюту'),
+    ('/history', 'Последние 10 запросов'),
+    ("/help", "Вывести справку")
+)
