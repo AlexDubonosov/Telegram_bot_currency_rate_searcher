@@ -70,7 +70,7 @@ def print_charts(chat_id: str) -> None:
     data = api_request(method_endswith='stock/v2/get-chart',
                        params={"interval": interval, "symbol": user_currency, "region": "US", "period1": start_time, "period2": end_time},
                        method_type='GET')
-    pprint.pprint(data)
+    # pprint.pprint(data)
     value = find_keys_in_json(data, 'open')[0]
     time_period = find_keys_in_json(data, 'timestamp')[0]
     get_charts(value, time_period, user_currency)
