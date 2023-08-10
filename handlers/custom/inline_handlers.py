@@ -13,11 +13,13 @@ from database.db_with_orm import write_data_in_db
 def callback_action_choice(call):
     if call.data == 'current_button':
         result = chosen_currency_price('regularMarketPrice', call.from_user.id, 'regularMarketChange')
-
-        if result[1] > 0:
-            bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} +{result[1]}')
+        if isinstance(result, tuple):
+            if result[1] > 0:
+                bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} +{result[1]}')
+            else:
+                bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} {result[1]}')
         else:
-            bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} {result[1]}')
+            bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result}')
 
     elif call.data == 'low_button':
         result = chosen_currency_price('regularMarketDayLow', call.from_user.id)
