@@ -15,9 +15,9 @@ def callback_action_choice(call):
         result = chosen_currency_price('regularMarketPrice', call.from_user.id, 'regularMarketChange')
         if isinstance(result, tuple):
             if result[1] > 0:
-                bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} +{result[1]}')
+                bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} +{round(result[1], 3)}')
             else:
-                bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} {result[1]}')
+                bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result[0]} {round(result[1], 3)}')
         else:
             bot.send_message(call.message.chat.id, f'Текущая стоимость:  {result}')
 
