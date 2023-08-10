@@ -1,18 +1,17 @@
-from database.write_read_db import read_date
 import datetime
 import calendar
 
 
 # Конвертирование дат из формата г/м/д в секунды с 'начала эпохи'
 # Выбор интервала для графика в зависимости от промежутка
-def convert_date(chat_id: str) -> tuple:
-    date = read_date(chat_id)['date']
+def convert_date(date_period: str) -> tuple:
+    date_period = date_period.split()
 
-    y, m, d = date[0].split('-')
+    y, m, d = date_period[0].split('-')
     st = datetime.datetime(int(y), int(m), int(d))
     start_time = str(calendar.timegm(st.timetuple()))
 
-    y, m, d = date[1].split('-')
+    y, m, d = date_period[1].split('-')
     et = datetime.datetime(int(y), int(m), int(d))
     end_time = str(calendar.timegm(et.timetuple()))
 
