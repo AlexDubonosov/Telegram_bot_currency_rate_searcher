@@ -1,7 +1,17 @@
+"""
+Модуль содержит инлайн клавиатуру для выбора валюты
+"""
+
+
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def currency_choice_keyboard():
+def currency_choice_keyboard() -> InlineKeyboardMarkup:
+    """
+    Функция создает и возвращает инлайн клавиатуру для выбора валюты.
+
+    :return:
+    """
     keyboard = InlineKeyboardMarkup()
     usd_button = InlineKeyboardButton('$ USD', callback_data='usd_button')
     eur_button = InlineKeyboardButton('€ EUR', callback_data='eur_button')
@@ -18,4 +28,3 @@ def currency_choice_keyboard():
     keyboard.add(other_button)
 
     return keyboard
-

@@ -1,25 +1,26 @@
+"""
+Модуль для сохранения графика курса валюты за выбранный период
+"""
+
+
 import matplotlib.pyplot as plt
 import matplotlib
 import datetime
 from units.twelve_date_from_list import twelve_date_from_list
-
+from config_data.config import currency_description
 # Исправляет ошибку UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail
 matplotlib.use('agg')
 
-# Описание для подготовленных валют
-currency = {
-    'RUB=X': 'Доллар',
-    'EURRUB=X': 'Евро',
-    'BTC-USD': 'Биткоин',
-    'GC=F, RUB=X': 'Золото',
-    '^GSPC': 'Акции 500 крупнейших компаний США',
-    'CNYRUB=X': 'Юань',
-    'JPYRUB=X': 'Йена'
-}
 
+def get_charts(data: list, time_period: list, user_currency: str) -> None:
+    """
+    Функция строит график на основе полученных данных и сохраняет его в виде изображения в основной директории.
 
-# Сохраняет график картинкой
-def get_charts(data: list, time_period: list, user_currency: list) -> None:
+    :param data: - значения курса выбранной валюты с определенным временным интервалом
+    :param time_period: - период, за который собраны значения курса выбранной валюты
+    :param user_currency: - название валюты
+    :return:
+    """
 
     # Повторяющиеся значения в ответе от api записываются как None, исправляем это, берем предыдущее значение.
     correct_data = []
@@ -34,7 +35,7 @@ def get_charts(data: list, time_period: list, user_currency: list) -> None:
     # строим график
     plt.plot([correct_data[key] for key in range(len(correct_data))], color='green')
     # подписи графика и осей
-    plt.title(f"Стоимость валюты: {currency[user_currency]}", fontsize=20)
+    plt.title(f"Стоимость валюты: {currency_description[user_currency]}", fontsize=20)
     plt.ylabel('Стоимость')
     plt.xlabel('Выбранный диапазон дат')
     # значения оси X:

@@ -1,63 +1,99 @@
+"""
+Модуль для отображения календаря для ввода дат начала и конца периода для построения графика курса валют
+"""
+
 from loader import bot
 from datetime import date
 from telegram_bot_calendar import DetailedTelegramCalendar
 from keyboards.reply.confirm_keyboard import confirm_keyboard
 from states.user_state import MyStates
-from database.db_with_orm import Currency
+from database.db_with_orm import write_date_period_in_db_in_last_slot_for_user
+from units.check_date import check_date
+from telebot.types import CallbackQuery
 
 
-# Первый календарь для выбора стартовой даты
-def my_calendar_start(message):
+def my_calendar_start() -> DetailedTelegramCalendar:
+    """
+    Функция создает первый календарь для пользователя.
+
+    :return:
+    """
     calendar, step = DetailedTelegramCalendar(calendar_id=1, max_date=date.today()).build()
     return calendar
 
 
-# Global переменная для записи дат
-date_period = {}
-
-
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id=1))
-def cal(call):
+def cal(call: CallbackQuery) -> None:
+    """
+    Функция вызывает первый календарь и дает выбрать дату начала периода.
+    После записывает дату и хранилище и создает второй календарь для выбора даты конца периода.
+
+    :param call:
+    :return:
+    """
     result, key, step = DetailedTelegramCalendar(calendar_id=1, max_date=date.today()).process(call.data)
     if not result and key:
-        bot.edit_message_text(f"Начало периода:",
+        bot.edit_message_text("Начало периода:",
                               call.message.chat.id,
                               call.message.message_id,
                               reply_markup=key)
     elif result:
-        bot.edit_message_text(f"Вы выбрали начала периода: {result}",
+        bot.edit_message_text("Вы выбрали начала периода: {result}",
                               call.message.chat.id,
                               call.message.message_id)
-        # Запись даты в global переменную с ключом from_user.id для уникальности юзеров
-        date_period[call.from_user.id] = {"user": call.from_user.id}
-        date_period[call.from_user.id]['user_date'] = []
-        date_period[call.from_user.id]['user_date'].append(str(result))
-        # Второй календарь для выбора конечной даты
+
+        # Устанавливаем состояние next_date
+        bot. set_state(call.from_user.id, MyStates.next_date, call.message.chat.id)
+        # Записываем дынные в ОП
+        with bot.retrieve_data(call.from_user.id, call.message.chat.id) as data:
+            data['date_period'] = []
+            data['date_period'].append(str(result))
+
+        # Создаем второй календарь для выбора конечной даты
         calendar, step = DetailedTelegramCalendar(calendar_id=2, max_date=date.today()).build()
-        bot.send_message(call.message.chat.id, f"Конец периода:", reply_markup=calendar)
+        bot.send_message(call.message.chat.id, "Конец периода:", reply_markup=calendar)
 
 
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id=2))
-def cal(call):
+def cal(call: CallbackQuery) -> None:
+    """
+    Функция вызывает второй календарь и дает выбрать дату конца периода.
+    Записывает дату в хранилище.
+    Происходит проверка валидности дат.
+    Если даты корректны - они записываются в БД, если нет вызывается предупреждение
+
+    :param call:
+    :return:
+    """
     result, key, step = DetailedTelegramCalendar(calendar_id=2, max_date=date.today()).process(call.data)
     if not result and key:
-        bot.edit_message_text(f"Конец периода:",
+        bot.edit_message_text("Конец периода:",
                               call.message.chat.id,
                               call.message.message_id,
                               reply_markup=key)
     elif result:
-        bot.edit_message_text(f"Вы выбрали конец периода {result}",
+        bot.edit_message_text("Вы выбрали конец периода {result}",
                               call.message.chat.id,
                               call.message.message_id)
 
-        # Запись даты в global переменную с ключом from_user.id для уникальности юзеров
-        # Запись получившихся дат в поле data_period в строку с самым большим id для конкретного юзера
-        date_period[call.from_user.id]['user_date'].append(str(result))
-        last_entry = Currency.select().where(Currency.user_id == call.from_user.id).order_by(Currency.id.desc()).first()
-        last_entry.date_period = date_period[call.from_user.id]['user_date'][0] + " " + date_period[call.from_user.id]['user_date'][1]
-        last_entry.save()
+        # Записываем данные в оперативную память
+        with bot.retrieve_data(call.from_user.id, call.message.chat.id) as data:
+            data['date_period'].append(str(result))
 
-        # Клавиатура для подтверждения действия
-        bot.set_state(call.from_user.id, MyStates.next_date, call.message.chat.id)
-        bot.send_message(call.message.chat.id, 'Подтвердите ввод:', reply_markup=confirm_keyboard())
+        # Проверка валидности полученных дат
+        is_date = check_date(data['date_period'])
 
+        if is_date:
+            # Считываем ОП и записываем даты в БД
+            with bot.retrieve_data(call.from_user.id, call.message.chat.id) as data:
+                write_date_period_in_db_in_last_slot_for_user(call.from_user.id, data)
+            # bot.set_state(call.from_user.id, MyStates.next_date, call.message.chat.id)
+            # Клавиатура для подтверждения действия
+            bot.send_message(call.message.chat.id, 'Подтвердите ввод:', reply_markup=confirm_keyboard())
+        else:
+            bot.set_state(call.from_user.id, MyStates.not_state, call.message.chat.id)
+            bot.send_message(call.message.chat.id, 'К сожалению я не могу обработать полученные даты...\n'
+                                                   'Пожалуйста, учтите:\n'
+                                                   '1. дата начала отсчета должна быть меньше даты конца отсчета.\n'
+                                                   '2. Минимальный интервал 2 дня.\n\n'
+                                                   'Введите /currency для продолжения, либо воспользуйтесь меню.\n')

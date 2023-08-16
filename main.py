@@ -1,8 +1,14 @@
+
+"""
+Данный модуль запускает бот
+"""
+
 from loader import bot
 import handlers
 from telebot.custom_filters import StateFilter
 from units.menu import menu
-from database.db_with_orm import create_models
+from database.models import create_models
+
 
 if __name__ == '__main__':
     create_models()

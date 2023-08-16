@@ -1,7 +1,17 @@
+"""
+Модуль содержит инлайн клавиатуру для выбора интересующего курса выбранной валюты
+"""
+
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def action_choice_keyboard():
+def action_choice_keyboard() -> InlineKeyboardMarkup:
+    """
+    Функция создает и возвращает инлайн клавиатуру для выбора интересующего курса выбранной валюты.
+
+    :return:
+    """
+
     keyboard = InlineKeyboardMarkup()
     current_button = InlineKeyboardButton('➡️ now', callback_data='current_button')
     low_button = InlineKeyboardButton('⬇️ min', callback_data='low_button')
@@ -10,4 +20,3 @@ def action_choice_keyboard():
     keyboard.add(current_button, low_button, high_button)
     keyboard.add(custom_button)
     return keyboard
-
