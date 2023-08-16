@@ -35,7 +35,8 @@ def get_charts(data: list, time_period: list, user_currency: str) -> None:
     # строим график
     plt.plot([correct_data[key] for key in range(len(correct_data))], color='green')
     # подписи графика и осей
-    plt.title(f"Стоимость валюты: {currency_description[user_currency]}", fontsize=20)
+    if currency_description.get(user_currency):
+        plt.title(f"Стоимость валюты: {currency_description[user_currency]}", fontsize=20)
     plt.ylabel('Стоимость')
     plt.xlabel('Выбранный диапазон дат')
     # значения оси X:
