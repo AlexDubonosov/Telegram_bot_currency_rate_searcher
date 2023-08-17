@@ -2,8 +2,9 @@
 Модуль для обработки команды /list
 """
 
-from loader import bot
 from telebot.types import Message
+
+from loader import bot
 
 
 @bot.message_handler(commands=['list'])

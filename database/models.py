@@ -8,8 +8,8 @@ from peewee import (
     Model,
     SqliteDatabase,
 )
-from config_data.config import DATABASE_PATH
 
+from config_data.config import DATABASE_PATH
 
 db = SqliteDatabase(DATABASE_PATH)
 

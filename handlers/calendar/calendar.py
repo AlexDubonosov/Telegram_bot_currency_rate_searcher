@@ -2,14 +2,16 @@
 Модуль для отображения календаря для ввода дат начала и конца периода для построения графика курса валют
 """
 
-from loader import bot
 from datetime import date
-from telegram_bot_calendar import DetailedTelegramCalendar
-from keyboards.reply.confirm_keyboard import confirm_keyboard
-from states.user_state import MyStates
-from database.db_with_orm import write_date_period_in_db_in_last_slot_for_user
-from units.check_date import check_date
+
 from telebot.types import CallbackQuery
+from telegram_bot_calendar import DetailedTelegramCalendar
+
+from database.db_with_orm import write_date_period_in_db_in_last_slot_for_user
+from keyboards.reply.confirm_keyboard import confirm_keyboard
+from loader import bot
+from states.user_state import MyStates
+from units.check_date import check_date
 
 
 def my_calendar_start() -> DetailedTelegramCalendar:

@@ -4,12 +4,14 @@
 """
 
 
-from handlers.calendar.calendar import my_calendar_start
-from states.user_state import MyStates
 import os
-from loader import bot
-from units import api
+
 from telebot.types import ReplyKeyboardRemove, Message
+
+from handlers.calendar.calendar import my_calendar_start
+from loader import bot
+from states.user_state import MyStates
+from units import api
 
 
 def calling_calendar(message: Message) -> None:

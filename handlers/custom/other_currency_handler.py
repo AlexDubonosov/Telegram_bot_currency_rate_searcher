@@ -2,11 +2,12 @@
 Модуль предназначен для обработки ручного ввода валюты пользователем
 """
 
-from loader import bot
-from states.user_state import MyStates
+from telebot.types import Message
+
 from database.db_with_orm import write_currency_in_db
 from keyboards.inline.action_choice import action_choice_keyboard
-from telebot.types import Message
+from loader import bot
+from states.user_state import MyStates
 
 
 @bot.message_handler(state=MyStates.input_currency)

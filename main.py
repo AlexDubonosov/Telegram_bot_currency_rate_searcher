@@ -3,12 +3,11 @@
 Данный модуль запускает бот
 """
 
-from loader import bot
-import handlers
 from telebot.custom_filters import StateFilter
-from units.menu import menu
+import handlers
 from database.models import create_models
-
+from loader import bot
+from units.menu import menu
 
 if __name__ == '__main__':
     create_models()

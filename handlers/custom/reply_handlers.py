@@ -3,8 +3,9 @@
 """
 
 
-from loader import bot
 from telebot.types import ReplyKeyboardRemove, Message
+
+from loader import bot
 from states.user_state import MyStates
 
 

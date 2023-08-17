@@ -3,12 +3,13 @@
 """
 
 
-import telebot
-from telebot import TeleBot
-from config_data import config
-from telebot.storage import StateMemoryStorage
 import logging
 
+import telebot
+from telebot import TeleBot
+from telebot.storage import StateMemoryStorage
+
+from config_data import config
 
 state_storage = StateMemoryStorage()
 bot = TeleBot(token=config.BOT_TOKEN, state_storage=state_storage)

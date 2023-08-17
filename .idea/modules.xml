@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/python_basic_diploma.iml" filepath="$PROJECT_DIR$/.idea/python_basic_diploma.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/telegram_bot_currency_rate_searcher.iml" filepath="$PROJECT_DIR$/.idea/telegram_bot_currency_rate_searcher.iml" />
     </modules>
   </component>
 </project>

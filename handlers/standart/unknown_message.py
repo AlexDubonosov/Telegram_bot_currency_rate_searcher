@@ -2,8 +2,9 @@
 Модуль для обработки любых текстовых сообщений не попавших под критерии описанные ранее.
 """
 
-from loader import bot
 from telebot.types import Message
+
+from loader import bot
 
 
 @bot.message_handler(content_types=['text'])

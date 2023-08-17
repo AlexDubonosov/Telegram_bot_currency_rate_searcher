@@ -3,11 +3,14 @@
 """
 
 
-import matplotlib.pyplot as plt
-import matplotlib
 import datetime
-from units.twelve_date_from_list import twelve_date_from_list
+
+import matplotlib
+import matplotlib.pyplot as plt
+
 from config_data.config import currency_description
+from units.twelve_date_from_list import twelve_date_from_list
+
 # Исправляет ошибку UserWarning: Starting a Matplotlib GUI outside of the main thread will likely fail
 matplotlib.use('agg')
 

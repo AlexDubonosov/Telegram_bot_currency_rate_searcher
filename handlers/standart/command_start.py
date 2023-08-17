@@ -3,10 +3,11 @@
 """
 
 
-from loader import bot
 from telebot.types import Message
-from states.user_state import MyStates
+
 from database.db_with_orm import create_user
+from loader import bot
+from states.user_state import MyStates
 
 
 @bot.message_handler(commands=['start'])

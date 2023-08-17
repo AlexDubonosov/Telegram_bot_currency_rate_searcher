@@ -2,11 +2,12 @@
 Модуль для обработки команды /history
 """
 
-from loader import bot
-from telebot.types import Message
-from database.models import Currency, User
 from telebot.types import List
+from telebot.types import Message
+
 from config_data.config import currency_description
+from database.models import Currency, User
+from loader import bot
 
 
 @bot.message_handler(commands=['history'])

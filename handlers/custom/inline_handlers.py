@@ -3,13 +3,14 @@
 """
 
 
-from loader import bot
-from keyboards.inline.action_choice import action_choice_keyboard
-from units.api import chosen_currency_price
-from handlers.custom.calling_calendar import calling_calendar
-from database.db_with_orm import write_currency_in_db
-from states.user_state import MyStates
 from telebot.types import CallbackQuery
+
+from database.db_with_orm import write_currency_in_db
+from handlers.custom.calling_calendar import calling_calendar
+from keyboards.inline.action_choice import action_choice_keyboard
+from loader import bot
+from states.user_state import MyStates
+from units.api import chosen_currency_price
 
 
 @bot.callback_query_handler(func=lambda call:

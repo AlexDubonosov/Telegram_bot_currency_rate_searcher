@@ -3,9 +3,10 @@
 """
 
 
-from loader import bot
 from telebot.types import Message
+
 from keyboards.inline import currency_choice
+from loader import bot
 
 
 @bot.message_handler(commands=['currency'])

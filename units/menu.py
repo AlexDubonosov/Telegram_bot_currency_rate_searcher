@@ -4,6 +4,7 @@
 
 
 from telebot.types import BotCommand
+
 from config_data.config import MENU_COMMANDS
 
 

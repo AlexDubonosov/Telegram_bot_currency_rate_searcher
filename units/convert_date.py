@@ -2,8 +2,8 @@
 Модуль для обработки дат
 """
 
-import datetime
 import calendar
+import datetime
 
 
 def convert_date(date_period: str) -> tuple:
